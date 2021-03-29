@@ -67,14 +67,7 @@ class DetailPage extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: Colors.grey,
                                 ),
-                                child: Stack(
-                                  children: [
-                                    buildBackground(location.imageUrl),
-                                    buildGradient(),
-                                    buildTitleAndSubtitle(
-                                        location.name, location.place)
-                                  ],
-                                ),
+                                child: CardItem(location),
                               ),
                             ))
                         .toList(),
@@ -93,14 +86,7 @@ class DetailPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: Colors.grey,
                               ),
-                              child: Stack(
-                                children: [
-                                  buildBackground(location.imageUrl),
-                                  buildGradient(),
-                                  buildTitleAndSubtitle(
-                                      location.name, location.place)
-                                ],
-                              ),
+                              child: CardItem(location),
                             ),
                           ))
                       .toList(),

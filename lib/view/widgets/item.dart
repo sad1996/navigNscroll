@@ -1,5 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:navig_scroll/model/location.dart';
+
+class CardItem extends StatelessWidget {
+  const CardItem(this.location);
+
+  final Location location;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        buildBackground(location.imageUrl),
+        buildGradient(),
+        buildTitleAndSubtitle(location.name, location.place)
+      ],
+    );
+  }
+}
 
 Widget buildBackground(String imageUrl) => CachedNetworkImage(
       imageUrl: imageUrl,
