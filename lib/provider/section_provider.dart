@@ -5,7 +5,6 @@ class SectionProvider with ChangeNotifier {
 
   setTabIndex(int index) {
     currentTabIndex = index;
-    // if (Platform.isAndroid)
     notifyListeners();
   }
 }

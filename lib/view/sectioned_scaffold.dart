@@ -13,8 +13,6 @@ class SectionedScaffold extends StatefulWidget {
 }
 
 class _SectionedScaffoldState extends State<SectionedScaffold> {
-  /// Controls which tabs should have its content built. This enables us to
-  /// lazy instantiate it.
   final List<bool> _shouldBuildView = <bool>[];
 
   @override
@@ -28,10 +26,6 @@ class _SectionedScaffoldState extends State<SectionedScaffold> {
 
   @override
   Widget build(BuildContext context) => WillPopScope(
-        // We're preventing the root navigator from popping and closing the app
-        // when the back button is pressed and the inner navigator can handle
-        // it. That occurs when the inner has more than one page on its stack.
-        // You can comment the onWillPop callback and watch "the bug".
         onWillPop: () async => !await widget
             .sections[Provider.of<SectionProvider>(context, listen: false)
                 .currentTabIndex]
@@ -39,8 +33,6 @@ class _SectionedScaffoldState extends State<SectionedScaffold> {
             .currentState!
             .maybePop(),
         child: Scaffold(
-          // The Stack is what allows us to retain state across tab
-          // switches by keeping all of our views in the widget tree.
           body: Stack(
             fit: StackFit.expand,
             children: widget.sections
@@ -70,8 +62,6 @@ class _SectionedScaffoldState extends State<SectionedScaffold> {
       child: Consumer<SectionProvider>(
         builder: (_, provider, child) {
           final isCurrentlySelected = tabIndex == provider.currentTabIndex;
-          // We should build the tab content only if it was already built or
-          // if it is currently selected.
           _shouldBuildView[tabIndex] =
               isCurrentlySelected || _shouldBuildView[tabIndex];
           if (!_shouldBuildView[tabIndex])
@@ -82,14 +72,7 @@ class _SectionedScaffoldState extends State<SectionedScaffold> {
             return Offstage(child: child!);
         },
         child: Navigator(
-          // The key enables us to access the Navigator's state inside the
-          // onWillPop callback and for emptying its stack when a tab is
-          // re-selected. That is why a GlobalKey is needed instead of
-          // a simpler ValueKey.
           key: screen.navKey,
-          // Since this isn't the purpose of this sample, we're not using
-          // named routes. Because of that, the onGenerateRoute callback
-          // will be called only for the initial route.
           onGenerateRoute: (settings) => MaterialPageRoute(
             settings: settings,
             builder: screen.screenBuilder,
@@ -102,14 +85,9 @@ class _SectionedScaffoldState extends State<SectionedScaffold> {
   void onTabSelected(int newIndex) {
     var provider = Provider.of<SectionProvider>(context, listen: false);
     if (provider.currentTabIndex == newIndex) {
-      // If the user is re-selecting the tab, the common
-      // behavior is to empty the stack.
       widget.sections[newIndex].navKey.currentState!
           .popUntil((route) => route.isFirst);
     }
-
-    // If we're running on iOS there's no need to rebuild the Widget to reflect
-    // the tab change.
     provider.setTabIndex(newIndex);
   }
 }

@@ -39,21 +39,35 @@ class HomeScreen extends StatelessWidget {
           ),
         )
         .toList();
-    if (pageIndex != 3) {
-      return SafeArea(
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.all(5),
-          scrollDirection: pageIndex.isEven ? Axis.horizontal : Axis.vertical,
-          children: children,
-        ),
-      );
-    } else
-      return SafeArea(
-        child: GridView.count(
-          crossAxisCount: 2,
-          children: children,
-        ),
-      );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(getPageTitle(pageIndex)),
+      ),
+      body: pageIndex != 3
+          ? ListView(
+              physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.all(5),
+              scrollDirection:
+                  pageIndex.isEven ? Axis.horizontal : Axis.vertical,
+              children: children,
+            )
+          : GridView.count(
+              crossAxisCount: 2,
+              children: children,
+            ),
+    );
+  }
+
+  String getPageTitle(int index) {
+    switch (index) {
+      case 1:
+        return 'Vertical Scroll';
+      case 2:
+        return 'Horizontal Scroll';
+      case 3:
+        return 'Grid Scroll';
+      default:
+        return '';
+    }
   }
 }
