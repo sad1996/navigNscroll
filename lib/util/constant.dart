@@ -4,27 +4,27 @@ import 'package:navig_scroll/model/section.dart';
 
 const appName = 'Navigation & Scroll';
 
-final List<Section> appSections = [
-  Section(
+final List<NavBarItem> appSections = [
+  NavBarItem(
     title: 'Home',
     icon: Icons.home_outlined,
     activeIcon: Icons.home,
-    navKey: GlobalKey<NavigatorState>(),
+    sectionNavKey: GlobalKey<NavigatorState>(),
   ),
-  Section(
+  NavBarItem(
     title: 'Media',
     icon: Icons.camera_alt_outlined,
     activeIcon: Icons.camera_alt,
-    navKey: GlobalKey<NavigatorState>(),
+    sectionNavKey: GlobalKey<NavigatorState>(),
   ),
-  Section(
+  NavBarItem(
     title: 'Profile',
     icon: Icons.supervised_user_circle_outlined,
     activeIcon: Icons.supervised_user_circle,
-    navKey: GlobalKey<NavigatorState>(),
+    sectionNavKey: GlobalKey<NavigatorState>(),
   ),
 ];
-
+const appBarHeight = 250.0;
 const defaultDuration = Duration(milliseconds: 500);
 const urlPrefix =
     'https://flutter.dev/docs/cookbook/img-files/effects/parallax';
